@@ -65,7 +65,7 @@ in {
     programs.vim = {
       enable = mkEnableOption "Vim";
 
-      source_package = mkOption {
+      sourcePackage = mkOption {
         type = with types; package;
         default = pkgs.vim_configurable;
         example = literalExample
@@ -147,7 +147,7 @@ in {
       ${cfg.extraConfig}
     '';
 
-    vim = cfg.source_package.customize {
+    vim = cfg.sourcePackage.customize {
       name = "vim";
       vimrcConfig = {
         inherit customRC;
