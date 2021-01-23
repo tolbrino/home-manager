@@ -71,8 +71,8 @@ in {
         example = literalExample
           "pkgs.vim_configurable.override { python = pkgs.python3; }";
         description = ''
-          A vim package which will be installed and configured by home-manager.
-          This can either be one of the default vim packages from nixpkgs or a customized
+          A Vim package which will be installed and configured by Home Manager.
+          This can either be one of the default Vim packages from Nixpkgs or a customized
           package.
         '';
       };
