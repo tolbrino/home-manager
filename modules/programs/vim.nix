@@ -65,16 +65,18 @@ in {
     programs.vim = {
       enable = mkEnableOption "Vim";
 
-      sourcePackage = mkOption {
-        type = with types; package;
+      package = mkOption {
+        type = types.package;
         default = pkgs.vim_configurable;
-        example = literalExample
-          "pkgs.vim_configurable.override { python = pkgs.python3; }";
-        description = ''
-          A Vim package which will be installed and configured by Home Manager.
-          This can either be one of the default Vim packages from Nixpkgs or a customized
-          package.
-        '';
+        defaultText = literalExample "pkgs.vim_configurable";
+        description = "The package to use for the vim binary.";
+      };
+
+      finalPackage = mkOption {
+        type = types.package;
+        visible = false;
+        readOnly = true;
+        description = "Resulting customized vim package.";
       };
 
       plugins = mkOption {
@@ -131,11 +133,6 @@ in {
         description = "Custom .vimrc lines";
       };
 
-      package = mkOption {
-        type = types.package;
-        description = "Resulting customized vim package";
-        readOnly = true;
-      };
     };
   };
 
@@ -147,7 +144,7 @@ in {
       ${cfg.extraConfig}
     '';
 
-    vim = cfg.sourcePackage.customize {
+    vim = cfg.package.customize {
       name = "vim";
       vimrcConfig = {
         inherit customRC;
@@ -173,10 +170,10 @@ in {
       } as strings.
     '';
 
-    home.packages = [ cfg.package ];
+    home.packages = [ cfg.finalPackage ];
 
     programs.vim = {
-      package = vim;
+      finalPackage = vim;
       plugins = defaultPlugins;
     };
   });
